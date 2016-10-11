@@ -77,3 +77,11 @@ stock CMD_GetFlags(const cmd[])
 {
     return getproperty(.name = cmd);
 }
+
+stock CommandExists(const cmd[])
+{
+    new cmd_name[32] = "cmd_";
+    
+    strcat(cmd_name, cmd);
+    return funcidx(cmd_name) != -1;
+}
