@@ -52,5 +52,5 @@ __Parameters:__
 - cmd - The name of the command (in lower-case).
 
 __Return Values:__
-0: Command does not exist.
-1: Command exists.
+- 0: Command does not exist.
+- 1: Command exists.
