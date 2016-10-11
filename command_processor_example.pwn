@@ -159,8 +159,8 @@ CMD:acmds(playerid, params[])
 
 CMD:god(playerid, params[])
 {
-	SendClientMessage(playerid, -1, "god");
-	return 1;
+    SendClientMessage(playerid, -1, "god");
+    return 1;
 }
 
 //-----------------------------------------------------
@@ -169,20 +169,20 @@ CMD:god(playerid, params[])
 
 CMD:explode(playerid, params[])
 {
-	SendClientMessage(playerid, -1, "explode");
-	return 1;
+    SendClientMessage(playerid, -1, "explode");
+    return 1;
 }
 
 CMD:kick(playerid, params[])
 {
-	SendClientMessage(playerid, -1, "kick");
-	return 1;
+    SendClientMessage(playerid, -1, "kick");
+    return 1;
 }
 
 CMD:mute(playerid, params[])
 {
-	SendClientMessage(playerid, -1, "mute");
-	return 1;
+    SendClientMessage(playerid, -1, "mute");
+    return 1;
 }
 
 //-----------------------------------------------------
@@ -191,8 +191,8 @@ CMD:mute(playerid, params[])
 
 CMD:ban(playerid, params[])
 {
-	SendClientMessage(playerid, -1, "ban");
-	return 1;
+    SendClientMessage(playerid, -1, "ban");
+    return 1;
 }
 
 //-----------------------------------------------------
@@ -201,8 +201,8 @@ CMD:ban(playerid, params[])
 
 CMD:unban(playerid, params[])
 {
-	SendClientMessage(playerid, -1, "unban");
-	return 1;
+    SendClientMessage(playerid, -1, "unban");
+    return 1;
 }
 
 //-----------------------------------------------------
@@ -211,8 +211,8 @@ CMD:unban(playerid, params[])
 
 CMD:setlevel(playerid, params[])
 {
-	SendClientMessage(playerid, -1, "setlevel");
-	return 1;
+    SendClientMessage(playerid, -1, "setlevel");
+    return 1;
 }
 
 //-----------------------------------------------------
@@ -220,47 +220,47 @@ CMD:setlevel(playerid, params[])
 // By Nero_3D
 GetPublicName(idx, buffer[32])
 {
-	if (idx >= 0)
-	{
-		new publics, natives;
+    if (idx >= 0)
+    {
+        new publics, natives;
         
-		#emit lctrl 1
-		#emit const.alt 32
-		#emit sub.alt
-		#emit stor.s.pri publics
-		#emit add.c 4
-		#emit stor.s.pri natives
+        #emit lctrl 1
+        #emit const.alt 32
+        #emit sub.alt
+        #emit stor.s.pri publics
+        #emit add.c 4
+        #emit stor.s.pri natives
 
-		#emit lref.s.pri natives
-		#emit stor.s.pri natives
+        #emit lref.s.pri natives
+        #emit stor.s.pri natives
 
-		#emit lref.s.pri publics
-		#emit load.s.alt idx
-		#emit shl.c.alt 3
-		#emit add
-		#emit stor.s.pri publics
+        #emit lref.s.pri publics
+        #emit load.s.alt idx
+        #emit shl.c.alt 3
+        #emit add
+        #emit stor.s.pri publics
 
-		if (publics < natives)
-		{
-			#emit lctrl 1
-			#emit move.alt
-			#emit load.s.pri publics
-			#emit add.c 4
-			#emit sub
-			#emit stor.s.pri publics
-			#emit lref.s.pri publics
-			#emit sub
-			#emit stor.s.pri natives
+        if (publics < natives)
+        {
+            #emit lctrl 1
+            #emit move.alt
+            #emit load.s.pri publics
+            #emit add.c 4
+            #emit sub
+            #emit stor.s.pri publics
+            #emit lref.s.pri publics
+            #emit sub
+            #emit stor.s.pri natives
 
-			for (idx = 0; ; natives += 4)
-			{
-			    #emit lref.s.pri natives
-			    #emit stor.s.pri publics
+            for (idx = 0; ; natives += 4)
+            {
+                #emit lref.s.pri natives
+                #emit stor.s.pri publics
 
-			    if ((buffer[idx++] = publics & 0xFF) == EOS || (buffer[idx++] = publics >> 8 & 0xFF) == EOS || (buffer[idx++] = publics >> 16 & 0xFF) == EOS || (buffer[idx++] = publics >>> 24) == EOS)
-			    {
-			        return idx;
-			    }
+                if ((buffer[idx++] = publics & 0xFF) == EOS || (buffer[idx++] = publics >> 8 & 0xFF) == EOS || (buffer[idx++] = publics >> 16 & 0xFF) == EOS || (buffer[idx++] = publics >>> 24) == EOS)
+                {
+                    return idx;
+                }
             }
         }
     }
