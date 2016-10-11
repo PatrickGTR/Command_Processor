@@ -51,6 +51,7 @@ public OnFilterScriptInit()
 	
     // admins with level 5+ can use these:
     CMD_SetFlags("setlevel", min_level_5);
+    CMD_SetFlags("setcmdflags", min_level_5);
     return 1;
 }
 
@@ -208,6 +209,33 @@ CMD:unban(playerid, params[])
 //-----------------------------------------------------
 //                  	LEVEL 5
 //-----------------------------------------------------
+
+/*
+    it sets what will be the minimum admin level for a certain command
+    it will be only temporary (until the mode/script exits or restarted/reloaded)    
+*/
+CMD:setcmdflags(playerid, params[])
+{
+    new cmd[28], lvl;
+	
+    if (sscanf(params, "s[28]i", cmd, lvl)) return SendClientMessage(playerid, -1, "Usage: /setcmdflags <command (in lower-case)> <level>");
+    if (!CommandExists(cmd)) return SendClientMessage(playerid, -1, "Error: This command does not exist.");
+    if (!(0 <= lvl <= 5)) return SendClientMessage(playerid, -1, "Error: Out of range; level must be between 0 and 5.");
+	
+    new flags;
+	
+    switch (lvl)
+    {
+        case 1: flags = CMD_LEVEL_1 | CMD_LEVEL_2 | CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5;
+        case 2: flags = CMD_LEVEL_2 | CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5;
+        case 3: flags = CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5;
+        case 4: flags = CMD_LEVEL_4 | CMD_LEVEL_5;
+        case 5: flags = CMD_LEVEL_5;
+    }
+
+    CMD_SetFlags(cmd, flags);
+    return 1;
+}
 
 CMD:setlevel(playerid, params[])
 {
