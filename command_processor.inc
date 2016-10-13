@@ -50,7 +50,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
     sscanf(cmdtext[1], "s[28]s[126]", cmd[4], params);
 
-    for (new i = strlen(cmd) - 1; i != 3; i--)
+    for (new i = strlen(cmd); --i != 3;)
     {
         cmd[i] |= 0x20;
     }
