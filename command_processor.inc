@@ -29,6 +29,10 @@
     #define isnull(%1) ((!(%1[0])) || (((%1[0]) == '\1') && (!(%1[1]))))
 #endif
 
+#if !defined strcpy
+    #define strcpy(%0,%1) strcat((%0[0] = EOS, %0), %1)
+#endif
+
 #if defined OnPlayerCommandReceived
     forward OnPlayerCommandReceived(playerid, cmd[], params[], flags);
 #endif
