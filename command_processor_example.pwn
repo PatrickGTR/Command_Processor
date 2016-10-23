@@ -19,6 +19,16 @@ enum (<<= 1)
     CMD_LEVEL_5  // Server Owner
 };
 
+enum
+{
+    MIN_LEVEL_0 = 0,
+    MIN_LEVEL_1 = CMD_LEVEL_1 | CMD_LEVEL_2 | CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5,
+    MIN_LEVEL_2 = CMD_LEVEL_2 | CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5,
+    MIN_LEVEL_3 = CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5,
+    MIN_LEVEL_4 = CMD_LEVEL_4 | CMD_LEVEL_5,
+    MIN_LEVEL_5 = CMD_LEVEL_5
+};
+
 static gPlayer_Admin[MAX_PLAYERS char];
 
 public OnFilterScriptInit()
@@ -27,31 +37,24 @@ public OnFilterScriptInit()
     // the appropriate constant for the minimum admin level that can use the certain command
     // non-admin commands are by default 0 (no flags)
 
-    const
-        min_level_1 = CMD_LEVEL_1 | CMD_LEVEL_2 | CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5,
-        min_level_2 = CMD_LEVEL_2 | CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5,
-        min_level_3 = CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5,
-        min_level_4 = CMD_LEVEL_4 | CMD_LEVEL_5,
-        min_level_5 = CMD_LEVEL_5;
-
     // admins with level 1+ can use these:
-    CMD_SetFlags("acmds", min_level_1);
-    CMD_SetFlags("god", min_level_1);
+    CMD_SetFlags("acmds", MIN_LEVEL_1);
+    CMD_SetFlags("god", MIN_LEVEL_1);
 	
     // admins with level 2+ can use these:
-    CMD_SetFlags("explode", min_level_2);
-    CMD_SetFlags("kick", min_level_2);
-    CMD_SetFlags("mute", min_level_2);
+    CMD_SetFlags("explode", MIN_LEVEL_2);
+    CMD_SetFlags("kick", MIN_LEVEL_2);
+    CMD_SetFlags("mute", MIN_LEVEL_2);
 	
     // admins with level 3+ can use these:
-    CMD_SetFlags("ban", min_level_3);
+    CMD_SetFlags("ban", MIN_LEVEL_3);
 	
     // admins with level 4+ can use these:
-    CMD_SetFlags("unban", min_level_4);
+    CMD_SetFlags("unban", MIN_LEVEL_4);
 	
     // admins with level 5+ can use these:
-    CMD_SetFlags("setlevel", min_level_5);
-    CMD_SetFlags("setcmdflags", min_level_5);
+    CMD_SetFlags("setlevel", MIN_LEVEL_5);
+    CMD_SetFlags("setcmdflags", MIN_LEVEL_5);
     return 1;
 }
 
@@ -219,18 +222,19 @@ CMD:setcmdflags(playerid, params[])
     new cmd[28], lvl;
 	
     if (sscanf(params, "s[28]i", cmd, lvl)) return SendClientMessage(playerid, -1, "Usage: /setcmdflags <command (in lower-case)> <level>");
-    if (!CommandExists(cmd)) return SendClientMessage(playerid, -1, "Error: This command does not exist.");
+    if (!CMD_Exists(cmd)) return SendClientMessage(playerid, -1, "Error: This command does not exist.");
     if (!(0 <= lvl <= 5)) return SendClientMessage(playerid, -1, "Error: Out of range; level must be between 0 and 5.");
 	
     new flags;
 	
     switch (lvl)
     {
-        case 1: flags = CMD_LEVEL_1 | CMD_LEVEL_2 | CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5;
-        case 2: flags = CMD_LEVEL_2 | CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5;
-        case 3: flags = CMD_LEVEL_3 | CMD_LEVEL_4 | CMD_LEVEL_5;
-        case 4: flags = CMD_LEVEL_4 | CMD_LEVEL_5;
-        case 5: flags = CMD_LEVEL_5;
+        case 0: flags = MIN_LEVEL_0;
+        case 1: flags = MIN_LEVEL_1;
+        case 2: flags = MIN_LEVEL_2;
+        case 3: flags = MIN_LEVEL_3;
+        case 4: flags = MIN_LEVEL_4;
+        case 5: flags = MIN_LEVEL_5;
     }
 
     CMD_SetFlags(cmd, flags);
