@@ -46,31 +46,28 @@ static stock cmd@flags;
 
 public OnPlayerCommandText(playerid, cmdtext[])
 {
-    new cmd[32] = "cmd_", params[126] = "\1";
+    static prefix[4] = {'c', 'm', 'd', '_'}, cmd[28];
+    static params[126];
 
+    params = "\1";
     sscanf(cmdtext[1], "s[28]s[126]", cmd[4], params);
 
-    for (new i = strlen(cmd); --i != 3;)
+    for (new i = strlen(cmd); --i != -1;)
     {
         cmd[i] |= 0x20;
     }
 
-    cmd@flags = getproperty(.name = cmd[4]);
+    cmd@flags = getproperty(.name = cmd);
 
     #if defined OnPlayerCommandReceived
-        if (!OnPlayerCommandReceived(playerid, cmd[4], params, cmd@flags)) return 1;
+        if (!OnPlayerCommandReceived(playerid, cmd, params, cmd@flags)) return 1;
     #endif
 
     #if defined OnPlayerCommandPerformed
-        return OnPlayerCommandPerformed(playerid, cmd[4], params, CallLocalFunction(cmd, "is", playerid, params, cmd@flags));
+        return OnPlayerCommandPerformed(playerid, cmd, params, CallLocalFunction(prefix, "is", playerid, params, cmd@flags));
     #else
-        return CallLocalFunction(cmd, "is", playerid, params);
+        return CallLocalFunction(prefix, "is", playerid, params);
     #endif
-}
-
-stock CMD_SetFlags(const cmd[], flags)
-{
-    setproperty(.name = cmd, .value = flags);
 }
 
 stock CMD_GetFlags(const cmd[])
@@ -80,8 +77,13 @@ stock CMD_GetFlags(const cmd[])
 
 stock CommandExists(const cmd[])
 {
-    new cmd_name[32] = "cmd_";
-    
-    strcat(cmd_name, cmd);
-    return funcidx(cmd_name) != -1;
+    static prefix[4] = {'c', 'm', 'd', '_'}, cmd_name[28];
+
+    strcpy(cmd_name, cmd);
+    return funcidx(prefix) != -1;
+}
+
+stock CMD_SetFlags(const cmd[], flags)
+{
+    setproperty(.name = cmd, .value = flags);
 }
