@@ -8,24 +8,12 @@ Original Repository: https://github.com/Kevin-Reinke/Command_Processor
 
 This is a modified version of it that includes flags.
 
+Thanks to Yashas for the static data trick.
+
 
 
 - Functions
 -----------
-
-```pawn
-native CMD_SetFlags(const cmd[], flags);
-```
-__Description:__
-Sets the specified command's flag value.
-
-__Parameters:__
-- cmd - The name of the command (in lower-case).
-- flags - The flag value to set for a command.
-
-__Return Values:__
-This function does not return any specific values.
-
 
 
 ```pawn
@@ -41,9 +29,8 @@ __Return Values:__
 The current flag value of the specified command, 0 if none is set or command does not exist.
 
 
-
 ```pawn
-native CommandExists(const cmd[]);
+native CMD_Exists(const cmd[]);
 ```
 __Description:__
 Checks if a command exists.
@@ -54,3 +41,17 @@ __Parameters:__
 __Return Values:__
 - 0: Command does not exist.
 - 1: Command exists.
+
+
+```pawn
+native CMD_SetFlags(const cmd[], flags);
+```
+__Description:__
+Sets the specified command's flag value.
+
+__Parameters:__
+- cmd - The name of the command (in lower-case).
+- flags - The flag value to set for a command.
+
+__Return Values:__
+This function does not return any specific values.
