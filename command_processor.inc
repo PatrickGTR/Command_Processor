@@ -68,7 +68,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
     #endif
 
     #if defined OnPlayerCommandPerformed
-        return OnPlayerCommandPerformed(playerid, cmd, params, CallLocalFunction(prefix, "is", playerid, params, cmd@flags));
+        return OnPlayerCommandPerformed(playerid, cmd, params, CallLocalFunction(prefix, "is", playerid, params), cmd@flags);
     #else
         return CallLocalFunction(prefix, "is", playerid, params);
     #endif
